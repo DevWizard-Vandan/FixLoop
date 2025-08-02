@@ -1,0 +1,88 @@
+{
+  "name": "ai-continuous-tester",
+  "displayName": "AI Continuous Tester",
+  "description": "Continuously tests code and uses AI to fix errors",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:python"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiTester.start",
+        "title": "Start AI Continuous Testing"
+      },
+      {
+        "command": "aiTester.stop",
+        "title": "Stop AI Continuous Testing"
+      },
+      {
+        "command": "aiTester.configure",
+        "title": "Configure AI Testing"
+      },
+      {
+        "command": "aiTester.runOnce",
+        "title": "Run AI Continuous Tests"
+      }
+    ],
+    "configuration": {
+      "title": "AI Continuous Tester",
+      "properties": {
+        "aiTester.testInterval": {
+          "type": "number",
+          "default": 5000,
+          "description": "Interval between tests in milliseconds (used only when useIntervalFallback is true)"
+        },
+        "aiTester.enabledServices": {
+          "type": "array",
+          "default": ["gemini", "openai", "claude"],
+          "description": "Enabled AI services"
+        },
+        "aiTester.useIntervalFallback": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use setInterval as fallback when file watcher is not sufficient"
+        },
+        "aiTester.customTestCommand": {
+          "type": "string",
+          "default": "",
+          "description": "Custom test command to override auto-detection (e.g., 'npm run test:unit')"
+        },
+        "aiTester.verboseLogs": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable verbose logging for debugging"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node ./esbuild.config.js",
+    "watch": "node ./esbuild.config.js --watch",
+    "compile": "node ./esbuild.config.js",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4",
+    "esbuild": "^0.19.0",
+    "eslint": "^8.50.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "@vscode/vsce": "^2.19.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "diff": "^5.1.0"
+  }
+}
